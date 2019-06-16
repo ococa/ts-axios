@@ -62,4 +62,7 @@ function transformResponseData(res: AxiosResponse): AxiosResponse {
   return res
 }
 
+// 导出类型
+export * from './types'
+
 export default axios

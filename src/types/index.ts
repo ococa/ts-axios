@@ -1,4 +1,5 @@
 import { request } from 'https'
+import { timeouts } from 'retry'
 
 // 字符串字面量类型
 export type Method =
@@ -26,6 +27,7 @@ export interface AxiosRequestConfig {
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface AxiosResponse {
@@ -41,3 +43,11 @@ export interface AxiosResponse {
  * axios返回类型，继承promise泛型
  */
 export interface AxiosPromise extends Promise<AxiosResponse> {}
+
+export interface AxiosError extends Error {
+  isAxiosError: boolean
+  config: AxiosRequestConfig
+  code?: number | string
+  request?: any
+  response?: AxiosResponse
+}

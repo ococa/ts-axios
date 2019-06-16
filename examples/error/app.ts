@@ -36,9 +36,10 @@ axios({
 }).then((res) => {
   console.log(res)
 }).catch((e: AxiosError) => {
-  console.log(e.message)
-  console.log(e.config)
-  console.log(e.code)
-  console.log(e.request)
-  console.log(e.isAxiosError)
+  console.log('start error 😄')
+  console.log('start error 😄')
+  console.log('message', e.message)
+  console.log('e.config', e.config)
+  console.log('e.code', e.code)
+  console.log('e.request', e.request)
 })
