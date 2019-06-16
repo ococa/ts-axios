@@ -4,14 +4,16 @@
 import { AxiosRequestConfig } from './types'
 import xhr from './xhr'
 import { buildURL } from './helper/buildURL'
-import { transformRequest } from './helper/data'
+import { transformRequest, transformResponse } from './helper/data'
 import { processHeaders } from './helper/headers'
 import { AxiosPromise, AxiosResponse } from './types'
 
 function axios(config: AxiosRequestConfig): AxiosPromise {
   // TODO
   processConfig(config)
-  return xhr(config)
+  return xhr(config).then(res => {
+    return transformResponseData(res)
+  })
 }
 
 /**
@@ -50,6 +52,14 @@ function transformHeaders(config: AxiosRequestConfig): string {
 function transformRequestData(config: AxiosRequestConfig): any {
   const { data } = config
   return transformRequest(data)
+}
+
+/**
+ * 处理response的data
+ */
+function transformResponseData(res: AxiosResponse): AxiosResponse {
+  res.data = transformResponse(res.data)
+  return res
 }
 
 export default axios
