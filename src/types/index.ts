@@ -1,3 +1,5 @@
+import Axios from '../core/Axios'
+
 // 字符串字面量类型
 export type Method =
   | 'get'
@@ -77,7 +79,12 @@ export interface Axios {
 
 /**
  * 混合类型接口
+ * AxiosInstance类型定义
  */
 export interface AxiosInstance extends Axios {
+  // Situation a: one parameters
   (config: AxiosRequestConfig): AxiosPromise
+
+  // Situation b: two parameters
+  (url: string, config?: AxiosRequestConfig): AxiosPromise
 }
