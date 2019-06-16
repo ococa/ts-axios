@@ -59,7 +59,7 @@ registerMoreRouter()
 
 app.use(router)
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8000
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
@@ -78,6 +78,9 @@ function registerBaseRouter () {
   })
 
   router.post('/base/post', function(req, res) {
+    console.log("body", req.body);
+    console.log("data", req.data)
+
     res.json(req.body)
   })
 
