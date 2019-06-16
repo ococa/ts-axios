@@ -32,6 +32,11 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       resolve(response)
     }
 
+    // 异常处理
+    request.onerror = function handleError() {
+      reject(new Error('Network Error'))
+    }
+
     // 建立连接
     request.open(method.toUpperCase(), url, true)
 
