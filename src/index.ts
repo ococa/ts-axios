@@ -6,14 +6,12 @@ import xhr from './xhr'
 import { buildURL } from './helper/buildURL'
 import { transformRequest } from './helper/data'
 import { processHeaders } from './helper/headers'
+import { AxiosPromise, AxiosResponse } from './types'
 
-function axios(config: AxiosRequestConfig): void {
+function axios(config: AxiosRequestConfig): AxiosPromise {
   // TODO
-  console.log('config1: ', config)
-
   processConfig(config)
-  console.log('config2: ', config)
-  xhr(config)
+  return xhr(config)
 }
 
 /**

@@ -65,10 +65,13 @@ import logger from '../util';
 axios({
   method: 'post',
   url: '/base/post',
+  responseType: 'json',
   data: {
     a: 2,
     b: 3
   }
+}).then(res => {
+  console.log(res)
 })
 
 axios({
@@ -82,6 +85,8 @@ axios({
     a: 5,
     b: 5
   }
+}).then(res => {
+  console.log(res)
 })
 //
 // const arr = new Int32Array([21, 31])

@@ -12,6 +12,11 @@ function normalizeHeaderName(headers: any, normalizeHeaderName: string): void {
   })
 }
 
+/**
+ * 处理request的headers，当有data属性且没有设置content-type时候，
+ * 自动设置content-type='application/json;charset=utf-8'
+ * @param headers
+ */
 export function processHeaders(headers: any, data: any): any {
   normalizeHeaderName(headers, 'Content-Type')
   // 如果没有content
@@ -21,4 +26,28 @@ export function processHeaders(headers: any, data: any): any {
     }
   }
   return headers
+}
+
+/**
+ * 处理返回的headers将string转换为object
+ * @param headers
+ */
+export function parseHeaders(headers: string): object {
+  let parsed = Object.create(null)
+  if (!headers) {
+    return parsed
+  }
+  //
+  headers.split('\r\n').forEach(lineItem => {
+    let [key, value] = lineItem.split(':')
+    key = key.trim().toLowerCase()
+    if (!key) {
+      return
+    }
+    if (value) {
+      value = value.trim()
+    }
+    parsed[key] = value
+  })
+  return parsed
 }
