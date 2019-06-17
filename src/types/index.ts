@@ -1,5 +1,3 @@
-import Axios from '../core/Axios'
-
 // 字符串字面量类型
 export type Method =
   | 'get'
@@ -31,8 +29,9 @@ export interface AxiosRequestConfig {
   timeout?: number
 }
 
-export interface AxiosResponse {
-  data: any
+export interface AxiosResponse<T = any> {
+  //响应数据支持泛型
+  data: T
   status: number
   statusText: string
   headers: any
@@ -43,7 +42,7 @@ export interface AxiosResponse {
 /**
  * axios返回类型，继承promise泛型
  */
-export interface AxiosPromise extends Promise<AxiosResponse> {}
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
 
 /**
  * axiosError类接口
@@ -60,21 +59,26 @@ export interface AxiosError extends Error {
  * axios class interface
  */
 export interface Axios {
-  request(config: AxiosRequestConfig): AxiosPromise
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosRequestConfig>
+    response: AxiosInterceptorManager<AxiosResponse>
+  }
 
-  get(url: string, config?: AxiosRequestConfig): AxiosPromise
+  request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
-  delete(url: string, config?: AxiosRequestConfig): AxiosPromise
+  get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  head(url: string, config?: AxiosRequestConfig): AxiosPromise
+  delete<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  options(url: string, config?: AxiosRequestConfig): AxiosPromise
+  head<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  post(url: string, body?: any, config?: AxiosRequestConfig): AxiosPromise
+  options<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  put(url: string, body?: any, config?: AxiosRequestConfig): AxiosPromise
+  post<T = any>(url: string, body?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  patch(url: string, body?: any, config?: AxiosRequestConfig): AxiosPromise
+  put<T = any>(url: string, body?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+
+  patch<T = any>(url: string, body?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 }
 
 /**
@@ -83,8 +87,27 @@ export interface Axios {
  */
 export interface AxiosInstance extends Axios {
   // Situation a: one parameters
-  (config: AxiosRequestConfig): AxiosPromise
+  // 泛型支持，AxiosPromise是传入T  config之前是传出
+  <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   // Situation b: two parameters
-  (url: string, config?: AxiosRequestConfig): AxiosPromise
+  <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+/**
+ * AxiosInterceptor(拦截器)类的接口定义
+ */
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T = any> {
+  // 参数val 返回 T或者promise
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
 }
