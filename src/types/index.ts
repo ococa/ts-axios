@@ -59,11 +59,15 @@ export interface AxiosError extends Error {
  * axios class interface
  */
 export interface Axios {
+  // 属性
+  defaults: AxiosRequestConfig
+
   interceptors: {
     request: AxiosInterceptorManager<AxiosRequestConfig>
     response: AxiosInterceptorManager<AxiosResponse>
   }
 
+  // 方法
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
