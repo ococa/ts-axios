@@ -1,4 +1,5 @@
-import axios, { AxiosTransformer } from '../../src/index'
+import axios from '../../src/index'
+import { AxiosTransformer } from '../../src/types'
 import qs from 'qs'
 
 // axios.defaults.headers.common['test2'] = 123
@@ -56,3 +57,4 @@ instance({
 }).then((res) => {
   console.log(res.data)
 })
+

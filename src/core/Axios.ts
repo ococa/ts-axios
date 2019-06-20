@@ -9,6 +9,7 @@ import {
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptorManager'
 import { rejects } from 'assert'
+import mergeConfig from './mergeConfig'
 
 interface Interceptors {
   request: InterceptorManager<AxiosRequestConfig>
@@ -51,6 +52,8 @@ export default class Axios {
       config = url
     }
 
+    config = mergeConfig(this.defaults, config)
+    console.log('config', config)
     // 拦截器链初始值
     const chain: PromiseChain<any>[] = [
       {

@@ -1,4 +1,6 @@
 import { isPlainObject } from './utils'
+import { Method } from '../types'
+import { deepMerge } from './utils'
 
 function normalizeHeaderName(headers: any, normalizeHeaderName: string): void {
   if (!headers) {
@@ -17,7 +19,7 @@ function normalizeHeaderName(headers: any, normalizeHeaderName: string): void {
  * 自动设置content-type='application/json;charset=utf-8'
  * @param headers
  */
-export function processHeaders(headers: any, data: any): any {
+export function processHeaders(data: any, headers: any): any {
   normalizeHeaderName(headers, 'Content-Type')
   // 如果没有content
   if (isPlainObject(data)) {
@@ -50,4 +52,28 @@ export function parseHeaders(headers: string): object {
     parsed[key] = value
   })
   return parsed
+}
+
+export function flatternHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers
+  }
+  headers = deepMerge(headers.common, headers[method], headers)
+
+  const methodsToDelete = [
+    'get',
+    'post',
+    'head',
+    'options',
+    ' post',
+    'put',
+    'patch',
+    'common',
+    'delete'
+  ]
+
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+  return headers
 }

@@ -2,6 +2,8 @@
  * 默认的http request header 配置
  */
 import { AxiosRequestConfig } from './types'
+import { transformRequest, transformResponse } from './helper/data'
+import { processHeaders } from './helper/headers'
 
 const defaults: AxiosRequestConfig = {
   method: 'get',
@@ -10,7 +12,20 @@ const defaults: AxiosRequestConfig = {
     common: {
       Accept: 'application/json, text/plain, */*'
     }
-  }
+  },
+  // 请求数据默认处理管道
+  transformRequest: [
+    function(data: any, headers: any) {
+      processHeaders(data, headers)
+      return transformRequest(data)
+    }
+  ],
+  // 响应数据默认处理管道
+  transformResponse: [
+    function(data: any): any {
+      return transformResponse(data)
+    }
+  ]
 }
 
 const methodsNoData = ['delete', 'get', 'head', 'options']
