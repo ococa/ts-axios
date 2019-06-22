@@ -77,7 +77,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
     })
 
-    //
+    // 取消请求
     if (cancelToken) {
       cancelToken.promise.then(reason => {
         request.abort()

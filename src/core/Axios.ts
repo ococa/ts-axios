@@ -8,7 +8,6 @@ import {
 } from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptorManager'
-import { rejects } from 'assert'
 import mergeConfig from './mergeConfig'
 
 interface Interceptors {
